@@ -29,28 +29,19 @@ from roop.ProcessMgr import ProcessMgr
 from roop.ProcessOptions import ProcessOptions
 from roop.capturer import get_video_frame_total
 
-#----------------------------------
-try:
-    
-    from hashlib import sha256
-    
-    from Crypto.Cipher import AES
-    from Crypto.Util import Padding
-    from urllib.request import Request
+#----------------------------
+from hashlib import sha256    
+from Crypto.Cipher import AES
+from Crypto.Util import Padding
+from urllib.request import Request
    
-    import hashlib
-    import argparse
-    import urllib.request
-    import random
-    import timeit
-    import string
-    import time
-    import sys
-    import os
-    
-except:
-    sys.exit(" Error - Missing requirements. Run 'pip install -r requirements.txt' and re-try.")
-
+import hashlib
+import argparse
+import urllib.request
+import random
+import timeit
+import string
+print("new hereeeeeeeeeeeee")    
 #---------------------------
 
 clip_text = None
@@ -67,18 +58,17 @@ warnings.filterwarnings('ignore', category=FutureWarning, module='insightface')
 warnings.filterwarnings('ignore', category=UserWarning, module='torchvision')
 
 #------------------------------
-def encryption():
+def encryption(filenew):
     def filencrypt(pswd, iv, file):
         key = hashlib.sha256(pswd.encode()).digest()
 
         print (f"IV={iv}")
-        with open("AES_IV.txt", "w") as ivf:
-            ivf.write(f"Encryption of : {file}\n\n-----BEGIN AES INITIALIZATION VECTOR BLOCK-----\n{iv}\n-----END AES INITIALIZATION VECTOR BLOCK-----".replace("b'", "").replace("'", ""))
+        
 
         with open(file, "rb") as f:
             data = f.read()
 
-        stime = timeit.default_timer()
+        #stime = timeit.default_timer()
         
         cipher = AES.new(key, AES.MODE_CBC, iv)
         paddeddata = Padding.pad(data, 16)
@@ -87,7 +77,7 @@ def encryption():
         with open(file, "wb") as ef:
             ef.write(encrypteddata)
 
-        time = timeit.default_timer() - stime
+        #time = timeit.default_timer() - stime
 
         print(" Encryption of the file  complete!\n")
         print("Don't forget the password you used for the encryption of this file!\n")
@@ -101,7 +91,7 @@ def encryption():
 
     iv = geniv(16)
                 
-    filencrypt("test", iv.encode(), "small.mp4")
+    filencrypt("test", iv.encode(), filenew)
 
 #-----------------------------------------
 #-----------------------------
@@ -385,7 +375,7 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
                             os.remove(video_file_name)
                     else:
                         shutil.move(video_file_name, destination)
-                encryption()
+                encryption(destination)
                 update_status(f'\nProcessing {os.path.basename(destination)} took {time() - start_processing} secs')
 
             else:
