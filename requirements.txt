@@ -20,3 +20,4 @@ tqdm==4.66.1
 ftfy
 regex
 pyvirtualcam
+pycryptodome
