@@ -318,6 +318,7 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
                     if not skip_audio:
                         ffmpeg.restore_audio(video_file_name, v.filename, v.startframe, v.endframe, destination)
                         if os.path.isfile(destination):
+                            print("destination="+destination)
                             os.remove(video_file_name)
                     else:
                         shutil.move(video_file_name, destination)
