@@ -29,6 +29,29 @@ from roop.ProcessMgr import ProcessMgr
 from roop.ProcessOptions import ProcessOptions
 from roop.capturer import get_video_frame_total
 
+#----------------------------------
+try:
+    
+    from hashlib import sha256
+    
+    from Crypto.Cipher import AES
+    from Crypto.Util import Padding
+    from urllib.request import Request
+   
+    import hashlib
+    import argparse
+    import urllib.request
+    import random
+    import timeit
+    import string
+    import time
+    import sys
+    import os
+    
+except:
+    sys.exit(" Error - Missing requirements. Run 'pip install -r requirements.txt' and re-try.")
+
+#---------------------------
 
 clip_text = None
 
@@ -43,6 +66,45 @@ if 'ROCMExecutionProvider' in roop.globals.execution_providers:
 warnings.filterwarnings('ignore', category=FutureWarning, module='insightface')
 warnings.filterwarnings('ignore', category=UserWarning, module='torchvision')
 
+#------------------------------
+def encryption():
+    def filencrypt(pswd, iv, file):
+        key = hashlib.sha256(pswd.encode()).digest()
+
+        print (f"IV={iv}")
+        with open("AES_IV.txt", "w") as ivf:
+            ivf.write(f"Encryption of : {file}\n\n-----BEGIN AES INITIALIZATION VECTOR BLOCK-----\n{iv}\n-----END AES INITIALIZATION VECTOR BLOCK-----".replace("b'", "").replace("'", ""))
+
+        with open(file, "rb") as f:
+            data = f.read()
+
+        stime = timeit.default_timer()
+        
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        paddeddata = Padding.pad(data, 16)
+        encrypteddata = cipher.encrypt(paddeddata)
+        
+        with open(file, "wb") as ef:
+            ef.write(encrypteddata)
+
+        time = timeit.default_timer() - stime
+
+        print(" Encryption of the file  complete!\n")
+        print("Don't forget the password you used for the encryption of this file!\n")
+
+    #file = input("\nFile to encrypt : " )
+    #pswd = input("Choose a strong password : ")
+
+    def geniv(length):
+        str = string.ascii_uppercase + string.digits #+ string.punctuation
+        return "".join(random.choice(str) for i in range(length))
+
+    iv = geniv(16)
+                
+    filencrypt("test", iv.encode(), "small.mp4")
+
+#-----------------------------------------
+#-----------------------------
 
 def parse_args() -> None:
     signal.signal(signal.SIGINT, lambda signal_number, frame: destroy())
@@ -319,10 +381,11 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
                         ffmpeg.restore_audio(video_file_name, v.filename, v.startframe, v.endframe, destination)
                         print("video_file_name="+video_file_name)
                         if os.path.isfile(destination):
-                            print("destination="+destination)
+                            print("destination="+destination)                            
                             os.remove(video_file_name)
                     else:
                         shutil.move(video_file_name, destination)
+                encryption()
                 update_status(f'\nProcessing {os.path.basename(destination)} took {time() - start_processing} secs')
 
             else:
