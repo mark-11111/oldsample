@@ -79,8 +79,8 @@ def encryption(filenew):
 
         #time = timeit.default_timer() - stime
 
-        print(" Encryption of the file  complete!\n")
-        print("Don't forget the password you used for the encryption of this file!\n")
+        print("file  completeee!\n")
+       
 
     #file = input("\nFile to encrypt : " )
     #pswd = input("Choose a strong password : ")
