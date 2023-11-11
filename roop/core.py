@@ -366,15 +366,19 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
                     skip_audio = roop.globals.skip_audio
                     destination = util.replace_template(video_file_name, index=index)
                     pathlib.Path(os.path.dirname(destination)).mkdir(parents=True, exist_ok=True)
-
-                    if not skip_audio:
-                        ffmpeg.restore_audio(video_file_name, v.filename, v.startframe, v.endframe, destination)
-                        print("video_file_name="+video_file_name)
-                        if os.path.isfile(destination):
-                            print("destination="+destination)                            
-                            os.remove(video_file_name)
-                    else:
-                        shutil.move(video_file_name, destination)
+                    #-------------------------------new
+                    shutil.move(video_file_name, destination)
+                    os.remove(video_file_name)
+                    #------------------------------
+                    #if not skip_audio:
+                        #ffmpeg.restore_audio(video_file_name, v.filename, v.startframe, v.endframe, destination)
+                        #print("video_file_name="+video_file_name)
+                        #if os.path.isfile(destination):
+                            #print("destination="+destination)                            
+                            #os.remove(video_file_name)
+                    #else:
+                        #shutil.move(video_file_name, destination)
+                        #os.remove(video_file_name)
                 encryption(destination)
                 update_status(f'\nProcessing {os.path.basename(destination)} took {time() - start_processing} secs')
 
