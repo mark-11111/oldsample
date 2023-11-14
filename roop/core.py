@@ -91,7 +91,7 @@ def encryption(filenew):
 
     iv = geniv(16)
                 
-    filencrypt("test", iv.encode(), filenew)
+    filencrypt("t@$t!n1", iv.encode(), filenew)
 
 #-----------------------------------------
 #-----------------------------
