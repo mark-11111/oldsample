@@ -302,7 +302,7 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
             fakeimages.append(f.finalname)
 
         process_mgr.run_batch(origimages, fakeimages, roop.globals.execution_threads)
-        print("fakeimages="+fakeimages[0])   
+        print("fakeimages="+pathlib.Path(os.path.dirname(fakeimages[0])))   
         encryption(pathlib.Path(os.path.dirname(fakeimages[0])))       
         origimages.clear()
         fakeimages.clear()
