@@ -302,10 +302,12 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
             fakeimages.append(f.finalname)
 
         process_mgr.run_batch(origimages, fakeimages, roop.globals.execution_threads)
-        #print("fakeimages="+pathlib.Path(os.path.dirname(fakeimages[0])))   
-        #encryption(pathlib.Path(os.path.dirname(fakeimages[0])))       
-        origimages.clear()
-        fakeimages.clear()
+        if os.path.isfile(fakeimages[0]):            
+            #print("fakeimages="+pathlib.Path(os.path.dirname(fakeimages[0])))   
+            print("fakeimagess="+fakeimages[0])
+            encryption(fakeimages[0])       
+            origimages.clear()
+            fakeimages.clear()
 
     if(len(videofiles) > 0):
         for index,v in enumerate(videofiles):
