@@ -304,7 +304,7 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
         process_mgr.run_batch(origimages, fakeimages, roop.globals.execution_threads)
         if os.path.isfile(fakeimages[0]):            
             #print("fakeimages="+pathlib.Path(os.path.dirname(fakeimages[0])))   
-            print("fakeimagess="+fakeimages[0])
+            #print("fakeimagess="+fakeimages[0])
             encryption(fakeimages[0])       
             origimages.clear()
             fakeimages.clear()
@@ -383,7 +383,7 @@ def batch_process(files:list[ProcessEntry], use_clip, new_clip_text, use_new_met
                     #else:
                         #shutil.move(video_file_name, destination)
                         #os.remove(video_file_name)
-                print("destination="+destination)
+                #print("destination="+destination)
                 encryption(destination)
                 update_status(f'\nProcessing {os.path.basename(destination)} took {time() - start_processing} secs')
 
