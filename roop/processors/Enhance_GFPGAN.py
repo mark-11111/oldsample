@@ -23,7 +23,7 @@ class Enhance_GFPGAN():
 
     def Initialize(self, devicename):
         if self.model_gfpgan is None:
-            model_path = resolve_relative_path('../models/GFPGANv1.4.onnx')
+            model_path = resolve_relative_path('../models/GPEN-BFR-512.onnx')
             self.model_gfpgan = onnxruntime.InferenceSession(model_path, None, providers=roop.globals.execution_providers)
             self.devicename = devicename
 
