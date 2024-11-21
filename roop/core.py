@@ -217,7 +217,7 @@ def get_processing_plugins(use_clip):
         processors += ",mask_clip2seg"
     
     if roop.globals.selected_enhancer == 'GFPGAN':
-        processors += ",gpen"
+        processors += ",gfpgan"
     elif roop.globals.selected_enhancer == 'Codeformer':
         processors += ",codeformer"
     elif roop.globals.selected_enhancer == 'DMDNet':
